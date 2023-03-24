@@ -1,2 +1,6 @@
-package com.example.soleproprietorship.customer.role;public enum ERole {
+package com.example.soleproprietorship.customer.role;
+
+public enum ERole {
+    CUSTOMER,
+    MODERATOR
 }
