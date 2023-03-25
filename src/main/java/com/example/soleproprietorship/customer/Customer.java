@@ -1,6 +1,5 @@
 package com.example.soleproprietorship.customer;
 
-import com.example.soleproprietorship.customer.role.Role;
 import com.example.soleproprietorship.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,7 +15,7 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "idCustomer")
     private long idCustomer;
     @Column(name = "name")
     private String name;
@@ -34,16 +33,19 @@ public class Customer {
     @Email
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "Customers")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Transaction> transactions;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private Role role;
 
     public Customer() {
 
     }
 
-
+    public Customer(String name, String surName, String address, String phoneNumber, String email) {
+        this.name = name;
+        this.surName = surName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }

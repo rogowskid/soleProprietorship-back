@@ -14,7 +14,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "idTransaction")
     private long idTransaction;
 
     @ManyToOne(fetch = FetchType.EAGER)
