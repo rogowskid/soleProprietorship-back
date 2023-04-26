@@ -4,10 +4,13 @@ import com.example.soleproprietorship.user.User;
 import com.example.soleproprietorship.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -21,5 +24,10 @@ public class MyUserDetailsService implements UserDetailsService {
         User user = repository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono takiego użytkownika!"));
 
         return UserDetailsImpl.build(user);
+    }
+
+    public User getUserFromToken() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return repository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono takiego użytkownika!"));
     }
 }

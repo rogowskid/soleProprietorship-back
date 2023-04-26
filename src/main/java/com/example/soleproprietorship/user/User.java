@@ -1,13 +1,19 @@
 package com.example.soleproprietorship.user;
 
+import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.role.Role;
+import com.example.soleproprietorship.product.Product;
+import com.example.soleproprietorship.service.Service;
+import com.example.soleproprietorship.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
+import java.util.List;
 
-@Entity(name = "Users")
+@Entity
+@Table(name = "Users")
 @Getter
 @Setter
 public class User {
@@ -26,38 +32,46 @@ public class User {
     @Email
     private String email;
 
+    @Column(name = "phoneNumber", length = 9)
+    private String phoneNumber;
+
     @Column(name = "pesel")
     private String pesel;
 
     @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "secondName")
-    private String secondName;
+    @Column(name = "surName")
+    private String surName;
+
+    @Column(name = "address")
+    private String address;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRole")
     private Role role;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Product> products;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Service> services;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Customer> customers;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Transaction> transactions;
+
     public User() {
     }
 
-    public User(String userName, String password, String email, String pesel, String firstName, String secondName, Role role) {
+    public User(String userName, String password, String email, String pesel, String firstName, String surName) {
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.pesel = pesel;
         this.firstName = firstName;
-        this.secondName = secondName;
-        this.role = role;
-    }
-
-    public User(String userName, String password, String email, String pesel, String firstName, String secondName) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-        this.pesel = pesel;
-        this.firstName = firstName;
-        this.secondName = secondName;
+        this.surName = surName;
     }
 }
