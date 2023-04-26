@@ -44,4 +44,12 @@ public class Customer {
 
     public Customer() {
     }
+
+    public Customer(String name, String surName, String address, String phoneNumber, String email) {
+        this.name = name;
+        this.surName = surName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }
