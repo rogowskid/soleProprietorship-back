@@ -2,7 +2,7 @@ package com.example.soleproprietorship.transaction;
 
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.product.Product;
-import com.example.soleproprietorship.service.Service;
+import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -64,7 +64,7 @@ public class Transaction {
                     @JoinColumn(name = "idService")
             }
     )
-    private List<Service> services;
+    private List<Job> jobs;
 
     public Transaction() {
     }

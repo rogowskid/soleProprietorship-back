@@ -1,4 +1,4 @@
-package com.example.soleproprietorship.service;
+package com.example.soleproprietorship.job;
 
 import com.example.soleproprietorship.transaction.Transaction;
 import com.example.soleproprietorship.user.User;
@@ -9,15 +9,15 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "Services")
+@Table(name = "Jobs")
 @Getter
 @Setter
-public class Service {
+public class Job {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idService")
-    private long idService;
+    @Column(name = "idJob")
+    private long idJob;
 
     @Column(name = "name")
     private String name;
@@ -32,9 +32,11 @@ public class Service {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
-    }, mappedBy = "services")
+    }, mappedBy = "jobs")
     private List<Transaction> transactions;
 
-    public Service() {
+    public Job() {
     }
+
+
 }

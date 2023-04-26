@@ -3,7 +3,7 @@ package com.example.soleproprietorship.user;
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.role.Role;
 import com.example.soleproprietorship.product.Product;
-import com.example.soleproprietorship.service.Service;
+import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -55,7 +55,7 @@ public class User {
     private List<Product> products;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Service> services;
+    private List<Job> jobs;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Customer> customers;
