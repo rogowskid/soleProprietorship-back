@@ -61,11 +61,17 @@ public class Transaction {
                     @JoinColumn(name = "idTransaction")
             },
             inverseJoinColumns = {
-                    @JoinColumn(name = "idService")
+                    @JoinColumn(name = "idJob")
             }
     )
     private List<Job> jobs;
 
     public Transaction() {
+    }
+
+    public Transaction(LocalDateTime date, Double price, String description) {
+        this.date = date;
+        this.price = price;
+        this.description = description;
     }
 }

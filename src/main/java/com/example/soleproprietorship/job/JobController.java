@@ -15,13 +15,13 @@ public class JobController {
     private JobService service;
 
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Job> getJob(@RequestParam Long idJob) {
 
         return new ResponseEntity<>(service.getJob(idJob), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public ResponseEntity<List<Job>> getJobs() {
 
         return new ResponseEntity<>(service.getJobs(), HttpStatus.OK);
