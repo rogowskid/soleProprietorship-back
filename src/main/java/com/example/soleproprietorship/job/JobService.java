@@ -18,12 +18,6 @@ public class JobService implements EntityModelValid<Job> {
     @Autowired
     private JobRepository repository;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TransactionService transactionService;
-
     public Job getJob(Long idJob) {
 
         return getIsExistById(idJob);

@@ -21,10 +21,6 @@ public class CustomerService implements EntityModelValid<Customer> {
     private CustomerRepository repository;
     @Autowired
     private MyUserDetailsService userDetailsService;
-    @Autowired
-    private TransactionService transactionService;
-    @Autowired
-    private UserService userService;
 
     public CustomerDTO getCustomer(Long idCustomer) {
         User user = userDetailsService.getUserFromToken();
