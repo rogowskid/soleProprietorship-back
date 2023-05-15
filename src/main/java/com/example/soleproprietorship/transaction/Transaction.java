@@ -1,5 +1,6 @@
 package com.example.soleproprietorship.transaction;
 
+import com.example.soleproprietorship.common.HasModel;
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.job.Job;
@@ -15,7 +16,7 @@ import java.util.List;
 @Table(name = "Transactions")
 @Getter
 @Setter
-public class Transaction {
+public class Transaction implements HasModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idTransaction")

@@ -1,5 +1,6 @@
 package com.example.soleproprietorship.job;
 
+import com.example.soleproprietorship.common.HasModel;
 import com.example.soleproprietorship.transaction.Transaction;
 import com.example.soleproprietorship.user.User;
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @Table(name = "Jobs")
 @Getter
 @Setter
-public class Job {
+public class Job implements HasModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

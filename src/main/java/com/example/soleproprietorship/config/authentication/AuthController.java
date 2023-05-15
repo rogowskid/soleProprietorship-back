@@ -11,6 +11,7 @@ import com.example.soleproprietorship.customer.role.Role;
 import com.example.soleproprietorship.customer.role.RoleRepository;
 import com.example.soleproprietorship.user.User;
 import com.example.soleproprietorship.user.UserRepository;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController implements HasAuthenticationModel{
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -49,6 +50,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+        loginRequest = encodeLoginRequest(loginRequest);
 
         Authentication authentication;
         try {
@@ -77,6 +79,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+
+        signUpRequest = encodeRegisterRequest(signUpRequest);
 
         if (userRepository.existsByUserName(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -123,5 +127,26 @@ public class AuthController {
         return ResponseEntity
                 .ok()
                 .body(new MessageResponse("Poprawnie dodano użytkownika"));
+    }
+
+    private LoginRequest encodeLoginRequest(LoginRequest entity){
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUserName(Encode.forHtml(entity.getUserName()));
+        loginRequest.setPassword(Encode.forHtml(entity.getPassword()));
+
+        return loginRequest;
+    }
+
+    private SignUpRequest encodeRegisterRequest(SignUpRequest entity){
+        SignUpRequest signUpRequest = new SignUpRequest();
+        signUpRequest.setPassword(Encode.forHtml(entity.getPassword()));
+        signUpRequest.setPesel(Encode.forHtml(entity.getPesel()));
+        signUpRequest.setUsername(Encode.forHtml(entity.getUsername()));
+        signUpRequest.setRole(Encode.forHtml(entity.getRole()));
+        signUpRequest.setUserFirstName(Encode.forHtml(entity.getUserFirstName()));
+        signUpRequest.setUserSecondName(Encode.forHtml(entity.getUserSecondName()));
+        signUpRequest.setEmail(parseEmail(entity.getEmail()));
+
+        return signUpRequest;
     }
 }

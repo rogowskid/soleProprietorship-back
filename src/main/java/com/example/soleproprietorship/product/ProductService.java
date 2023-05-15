@@ -1,16 +1,19 @@
 package com.example.soleproprietorship.product;
 
+import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
 import com.example.soleproprietorship.user.User;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductService {
+public class ProductService implements EntityModelValid<Product> {
     @Autowired
     private ProductRepository repository;
     @Autowired
@@ -70,5 +73,31 @@ public class ProductService {
 
     private Product mapCreationDTOToEntity(ProductCreationDTO dto) {
         return new Product(dto.getName(), dto.getPrice(), dto.getWeight());
+    }
+
+    @Override
+    public Product executeEncode(Product entity) {
+        Product product = new Product();
+
+        product.setIdProduct(entity.getIdProduct());
+        product.setWeight(entity.getWeight());
+        product.setPrice(entity.getPrice());
+        product.setTransactions(entity.getTransactions());
+        product.setName(Encode.forHtml(entity.getName()));
+        product.setUser(entity.getUser());
+
+        return product;
+    }
+
+    @Override
+    public List<Product> executeEncodeList(List<Product> entities) {
+
+        ArrayList<Product> products = new ArrayList<>();
+
+        for (Product entity : entities) {
+            products.add(executeEncode(entity));
+        }
+
+        return products;
     }
 }

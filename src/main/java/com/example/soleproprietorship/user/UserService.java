@@ -1,11 +1,16 @@
 package com.example.soleproprietorship.user;
 
+import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class UserService {
+public class UserService implements EntityModelValid<User> {
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -30,5 +35,38 @@ public class UserService {
     private UserDTO mapEntityToDTO(User user) {
         return new UserDTO(user.getEmail(), user.getPhoneNumber(), user.getPesel(),
                 user.getFirstName(), user.getSurName(), user.getAddress());
+    }
+
+    @Override
+    public User executeEncode(User model) {
+        User user = new User();
+        user.setIdUser(model.getIdUser());
+        user.setProducts(model.getProducts());
+        user.setJobs(model.getJobs());
+        user.setEmail(parseEmail(model.getEmail()));
+        user.setPassword(Encode.forHtml(model.getPassword()));
+        user.setAddress(Encode.forHtml(model.getAddress()));
+        user.setFirstName(Encode.forHtml(model.getFirstName()));
+        user.setSurName(Encode.forHtml(model.getSurName()));
+        user.setPhoneNumber(parsePhoneNumber(model.getPhoneNumber()));
+        user.setRole(model.getRole());
+        user.setCustomers(model.getCustomers());
+        user.setPesel(model.getPesel());
+        user.setUserName(model.getUserName());
+        user.setTransactions(model.getTransactions());
+        return user;
+    }
+
+    @Override
+    public List<User> executeEncodeList(List<User> models) {
+
+        ArrayList<User> users = new ArrayList<>();
+
+        for (User model : models) {
+            users.add(executeEncode(model));
+        }
+
+        return users;
+
     }
 }

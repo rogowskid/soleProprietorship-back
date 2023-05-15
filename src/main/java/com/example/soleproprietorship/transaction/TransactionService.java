@@ -1,24 +1,24 @@
 package com.example.soleproprietorship.transaction;
 
+import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.CustomerRepository;
 import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.job.JobRepository;
-import com.example.soleproprietorship.product.Product;
-import com.example.soleproprietorship.product.ProductCreationDTO;
-import com.example.soleproprietorship.product.ProductDTO;
-import com.example.soleproprietorship.product.ProductRepository;
+import com.example.soleproprietorship.product.*;
 import com.example.soleproprietorship.user.User;
+import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-public class TransactionService {
+public class TransactionService implements EntityModelValid<Transaction> {
 
     @Autowired
     private TransactionRepository repository;
@@ -84,5 +84,31 @@ public class TransactionService {
 
     private Transaction mapCreationDTOToEntity(TransactionCreationDTO dto) {
         return new Transaction(dto.getDate(), dto.getPrice(), dto.getDescription());
+    }
+
+    @Override
+    public Transaction executeEncode(Transaction entity) {
+        Transaction transaction = new Transaction();
+        transaction.setIdTransaction(transaction.getIdTransaction());
+        transaction.setDescription(Encode.forHtml(entity.getDescription()));
+        transaction.setPrice(entity.getPrice());
+        transaction.setDate(entity.getDate());
+        transaction.setUser(entity.getUser());
+        transaction.setJobs(entity.getJobs());
+        transaction.setCustomer(entity.getCustomer());
+        transaction.setProducts(entity.getProducts());
+        return transaction;
+    }
+
+    @Override
+    public List<Transaction> executeEncodeList(List<Transaction> entities){
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        for (Transaction entity : entities) {
+            transactions.add(executeEncode(entity));
+        }
+
+        return transactions;
+
     }
 }
