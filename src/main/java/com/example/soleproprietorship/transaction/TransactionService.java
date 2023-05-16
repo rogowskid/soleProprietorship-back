@@ -1,12 +1,14 @@
 package com.example.soleproprietorship.transaction;
 
+import com.example.soleproprietorship.common.EntityDTO;
 import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.CustomerRepository;
 import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.job.JobRepository;
-import com.example.soleproprietorship.product.*;
+import com.example.soleproprietorship.product.Product;
+import com.example.soleproprietorship.product.ProductRepository;
 import com.example.soleproprietorship.user.User;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,8 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-public class TransactionService implements EntityModelValid<Transaction> {
+public class TransactionService extends EntityDTO<Transaction, TransactionCreationDTO, TransactionDTO>
+        implements EntityModelValid<Transaction, Long> {
 
     @Autowired
     private TransactionRepository repository;
@@ -76,13 +79,15 @@ public class TransactionService implements EntityModelValid<Transaction> {
                 transaction.getProducts().size(), transaction.getJobs().size(), transaction.getProducts(), transaction.getJobs());
     }
 
-    private TransactionDTO mapEntityToDTO(Transaction transaction) {
+    @Override
+    protected TransactionDTO mapEntityToDTO(Transaction transaction) {
         return new TransactionDTO(transaction.getIdTransaction(), transaction.getDate(), transaction.getPrice(),
                 transaction.getDescription(), transaction.getCustomer().getName() + " " + transaction.getCustomer().getSurName(),
                 transaction.getProducts().size(), transaction.getJobs().size());
     }
 
-    private Transaction mapCreationDTOToEntity(TransactionCreationDTO dto) {
+    @Override
+    protected Transaction mapCreationDTOToEntity(TransactionCreationDTO dto) {
         return new Transaction(dto.getDate(), dto.getPrice(), dto.getDescription());
     }
 
@@ -110,5 +115,25 @@ public class TransactionService implements EntityModelValid<Transaction> {
 
         return transactions;
 
+    }
+
+    @Override
+    public Transaction getEntity(Long idTransaction) {
+        User user = userDetailsService.getUserFromToken();
+        Transaction transaction = repository.findByIdTransactionAndUser(idTransaction, user);
+        if (transaction == null) {
+            throw new NoSuchElementException("Transakcja nie istnieje!");
+        }
+        return transaction;
+    }
+
+    @Override
+    public List<Transaction> getEntities() {
+        User user = userDetailsService.getUserFromToken();
+        List<Transaction> transactions = repository.findAllByUser(user);
+        if (transactions == null) {
+            throw new NoSuchElementException("Użytkownik nie posiada żadnych transakcji!");
+        }
+        return transactions;
     }
 }

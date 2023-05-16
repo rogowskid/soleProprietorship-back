@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+
 public class CustomerDTO {
     @NotNull
     private Long idCustomer;
@@ -25,4 +26,6 @@ public class CustomerDTO {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+
+
 }

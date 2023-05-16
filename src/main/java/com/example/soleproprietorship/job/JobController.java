@@ -18,13 +18,13 @@ public class JobController {
     @GetMapping
     public ResponseEntity<Job> getJob(@RequestParam Long idJob) {
 
-        return new ResponseEntity<>(service.getJob(idJob), HttpStatus.OK);
+        return new ResponseEntity<>(service.getEntity(idJob), HttpStatus.OK);
     }
 
     @GetMapping("/user")
     public ResponseEntity<List<Job>> getJobs() {
 
-        return new ResponseEntity<>(service.getJobs(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getEntities(), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")

@@ -1,8 +1,6 @@
 package com.example.soleproprietorship.job;
 
 import com.example.soleproprietorship.common.EntityModelValid;
-import com.example.soleproprietorship.transaction.TransactionService;
-import com.example.soleproprietorship.user.UserService;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,28 +11,16 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
-public class JobService implements EntityModelValid<Job> {
+public class JobService implements EntityModelValid<Job, Long> {
 
     @Autowired
     private JobRepository repository;
-
-    public Job getJob(Long idJob) {
-
-        return getIsExistById(idJob);
-    }
-
-    public List<Job> getJobs(){
-
-        return repository.findAll();
-    }
 
     public void deleteJob(Long idJob) {
         Job job = getIsExistById(idJob);
 
         repository.delete(job);
     }
-
-
 
     private Job getIsExistById(Long idJob) {
 
@@ -69,4 +55,17 @@ public class JobService implements EntityModelValid<Job> {
 
         return jobs;
     }
+
+    @Override
+    public Job getEntity(Long idJob) {
+        return getIsExistById(idJob);
+
+    }
+
+    @Override
+    public List<Job> getEntities() {
+        return repository.findAll();
+
+    }
+
 }

@@ -1,10 +1,9 @@
 package com.example.soleproprietorship.customer;
 
+import com.example.soleproprietorship.common.EntityDTO;
 import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
-import com.example.soleproprietorship.transaction.TransactionService;
 import com.example.soleproprietorship.user.User;
-import com.example.soleproprietorship.user.UserService;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomerService implements EntityModelValid<Customer> {
+public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, CustomerDTO> implements EntityModelValid<Customer, Long> {
 
     @Autowired
     private CustomerRepository repository;
@@ -72,15 +71,6 @@ public class CustomerService implements EntityModelValid<Customer> {
         repository.delete(customer);
     }
 
-    private CustomerDTO mapEntityToDTO(Customer customer) {
-        return new CustomerDTO(customer.getIdCustomer(), customer.getName(), customer.getSurName(),
-                customer.getAddress(), customer.getPhoneNumber(), customer.getEmail());
-    }
-
-    private Customer mapCreationDTOToEntity(CustomerCreationDTO dto) {
-        return new Customer(dto.getName(), dto.getSurName(), dto.getAddress(), dto.getPhoneNumber(), dto.getEmail());
-    }
-
     @Override
     public Customer executeEncode(Customer model) {
         Customer customer = new Customer();
@@ -101,6 +91,33 @@ public class CustomerService implements EntityModelValid<Customer> {
             customers.add(executeEncode(model));
         }
         return customers;
+
+    }
+
+    @Override
+    public Customer getEntity(Long id) {
+        User user = userDetailsService.getUserFromToken();
+        Customer customer = repository.findByIdCustomerAndUser(id, user);
+        if (customer == null) {
+            throw new NoSuchElementException("Klient nie istnieje!");
+        }
+        return customer;
+    }
+
+    @Override
+    public List<Customer> getEntities() {
+        return repository.findAll();
+    }
+
+    @Override
+    protected CustomerDTO mapEntityToDTO(Customer customer) {
+        return new CustomerDTO(customer.getIdCustomer(), customer.getName(), customer.getSurName(),
+                customer.getAddress(), customer.getPhoneNumber(), customer.getEmail());
+    }
+
+    @Override
+    protected Customer mapCreationDTOToEntity(CustomerCreationDTO dto) {
+        return new Customer(dto.getName(), dto.getSurName(), dto.getAddress(), dto.getPhoneNumber(), dto.getEmail());
 
     }
 }

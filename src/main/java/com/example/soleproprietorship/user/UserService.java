@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService implements EntityModelValid<User> {
+public class UserService implements EntityModelValid<User, Long> {
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -68,5 +68,15 @@ public class UserService implements EntityModelValid<User> {
 
         return users;
 
+    }
+
+    @Override
+    public User getEntity(Long id) {
+        return userDetailsService.getUserFromToken();
+    }
+
+    @Override
+    public List<User> getEntities() {
+        return repository.findAll();
     }
 }
