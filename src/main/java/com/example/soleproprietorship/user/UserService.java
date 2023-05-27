@@ -2,8 +2,12 @@ package com.example.soleproprietorship.user;
 
 import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
+import com.example.soleproprietorship.customer.role.ERole;
+import com.example.soleproprietorship.customer.role.RoleRepository;
+import jakarta.annotation.PostConstruct;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +19,36 @@ public class UserService implements EntityModelValid<User, Long> {
     private UserRepository repository;
     @Autowired
     private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @PostConstruct
+    private void addTemplateUser(){
+        if(!repository.findAll().isEmpty())
+            return;
+
+        User user = new User();
+        user.setUserName("daniel");
+        user.setRole(roleRepository.findByName(ERole.CUSTOMER).get());
+        user.setCustomers(null);
+        user.setEmail("danio@wp.pl");
+        user.setPesel("92132456786");
+        user.setTransactions(null);
+        user.setAddress("Kielce 43");
+        user.setPassword(encoder.encode("dan123"));
+        user.setPhoneNumber("432123213");
+        user.setFirstName("Andrzej");
+        user.setSurName("Kowalski");
+        user.setJobs(null);
+        user.setProducts(null);
+
+        repository.save(user);
+
+    }
 
     public UserDTO getUser() {
         User user = userDetailsService.getUserFromToken();

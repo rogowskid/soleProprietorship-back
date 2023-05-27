@@ -3,8 +3,8 @@ package com.example.soleproprietorship.user;
 import com.example.soleproprietorship.common.HasModel;
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.role.Role;
-import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.job.Job;
+import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.transaction.Transaction;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -51,6 +51,17 @@ public class User implements HasModel {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRole")
     private Role role;
+
+    //OAuth2 fields
+    private String provider;
+    private String providerId;
+
+    //2FA fields
+    @Column(name="isUsing2FA")
+    private boolean isUsing2FA = true;
+
+    @Column(name="secret2FA")
+    private String secret2FA;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Product> products;

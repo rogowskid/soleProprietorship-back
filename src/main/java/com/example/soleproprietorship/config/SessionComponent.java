@@ -1,4 +1,4 @@
-package com.example.soleproprietorship.config.security;
+package com.example.soleproprietorship.config;
 
 import com.example.soleproprietorship.config.services.UserDetailsImpl;
 import org.springframework.security.core.context.SecurityContextHolder;

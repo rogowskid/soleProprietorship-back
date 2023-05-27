@@ -1,4 +1,5 @@
-package com.example.soleproprietorship.config.authentication.request;
+package com.example.soleproprietorship.config;
+
 
 import lombok.Getter;
 import lombok.Setter;
