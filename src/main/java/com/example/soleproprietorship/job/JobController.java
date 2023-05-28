@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -12,33 +13,33 @@ import java.util.List;
 public class JobController {
 
     @Autowired
-    private JobService service;
+    private JobService jobService;
 
-
-    @GetMapping()
-    public ResponseEntity<Job> getJob(@RequestParam Long idJob) {
-
-        return new ResponseEntity<>(service.getEntity(idJob), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<JobDTO> getJob(@RequestParam Long idJob) {
+        return new ResponseEntity<>(jobService.getJob(idJob), HttpStatus.OK);
     }
-
-    @GetMapping("/test")
-    public String tw(){
-        return "Hej";
-    }
-
 
     @GetMapping("/jobs")
-    public ResponseEntity<List<Job>> getJobs() {
-
-        return new ResponseEntity<>(service.getEntities(), HttpStatus.OK);
+    public ResponseEntity<List<JobDTO>> getUserJobs() {
+        return new ResponseEntity<>(jobService.getUserJobs(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteJob(@RequestParam Long idJob) {
-        service.deleteJob(idJob);
+    @PostMapping
+    public ResponseEntity<Void> addJob(@Valid @RequestBody JobCreationDTO dto) {
+        jobService.addJob(dto);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
+    @PatchMapping
+    public ResponseEntity<Void> editJob(@Valid @RequestBody JobDTO dto) {
+        jobService.editJob(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteJob(@RequestParam Long idJob) {
+        jobService.deleteJob(idJob);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

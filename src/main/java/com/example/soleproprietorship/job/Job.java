@@ -39,5 +39,8 @@ public class Job implements HasModel {
     public Job() {
     }
 
-
+    public Job(String name, String price) {
+        this.name = name;
+        this.price = price;
+    }
 }
