@@ -3,10 +3,10 @@ package com.example.soleproprietorship.customer;
 import com.example.soleproprietorship.common.HasModel;
 import com.example.soleproprietorship.transaction.Transaction;
 import com.example.soleproprietorship.user.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 

@@ -19,7 +19,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.getProduct(idProduct), HttpStatus.OK);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getUserProducts() {
         return new ResponseEntity<>(productService.getUserProducts(), HttpStatus.OK);
     }

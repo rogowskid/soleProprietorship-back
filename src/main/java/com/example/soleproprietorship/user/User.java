@@ -6,10 +6,10 @@ import com.example.soleproprietorship.customer.role.Role;
 import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.transaction.Transaction;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class User implements HasModel {
 
     //2FA fields
     @Column(name="isUsing2FA")
-    private boolean isUsing2FA = true;
+    private boolean isUsing2FA;
 
     @Column(name="secret2FA")
     private String secret2FA;

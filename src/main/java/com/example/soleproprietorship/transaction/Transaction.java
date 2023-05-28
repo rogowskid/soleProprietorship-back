@@ -2,13 +2,13 @@ package com.example.soleproprietorship.transaction;
 
 import com.example.soleproprietorship.common.HasModel;
 import com.example.soleproprietorship.customer.Customer;
-import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.job.Job;
+import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.user.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class Transaction implements HasModel {
     @JoinColumn(name = "idCustomer")
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
@@ -53,7 +53,7 @@ public class Transaction implements HasModel {
     )
     private List<Product> products;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })

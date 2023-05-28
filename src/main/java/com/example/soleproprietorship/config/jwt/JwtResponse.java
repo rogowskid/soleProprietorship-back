@@ -1,9 +1,7 @@
-package com.example.soleproprietorship.config.authentication.response;
+package com.example.soleproprietorship.config.jwt;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -13,13 +11,13 @@ public class JwtResponse {
     private String type = "Bearer";
     private Long id;
     private String username;
-    private List<String> roles;
+    private String role;
 
-    public JwtResponse(String accessToken, Long id, String username, List<String> roles) {
+    public JwtResponse(String accessToken, Long id, String username, String role) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
-        this.roles = roles;
+        this.role = role;
 
     }
 }

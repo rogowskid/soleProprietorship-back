@@ -19,7 +19,7 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getTransaction(idTransaction), HttpStatus.OK);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/transactions")
     public ResponseEntity<List<TransactionDTO>> getUserTransactions() {
         return new ResponseEntity<>(transactionService.getUserTransactions(), HttpStatus.OK);
     }

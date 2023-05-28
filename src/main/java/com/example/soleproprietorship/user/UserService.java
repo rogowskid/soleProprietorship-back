@@ -4,12 +4,12 @@ import com.example.soleproprietorship.common.EntityModelValid;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
 import com.example.soleproprietorship.customer.role.ERole;
 import com.example.soleproprietorship.customer.role.RoleRepository;
-import jakarta.annotation.PostConstruct;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +21,19 @@ public class UserService implements EntityModelValid<User, Long> {
     private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    PasswordEncoder encoder;
 
     @Autowired
     private RoleRepository roleRepository;
 
     @PostConstruct
-    private void addTemplateUser(){
-        if(!repository.findAll().isEmpty())
+    private void addTemplateUser() {
+        if (!repository.findAll().isEmpty())
             return;
 
         User user = new User();
         user.setUserName("daniel");
-        user.setRole(roleRepository.findByName(ERole.CUSTOMER).get());
+        user.setRole(roleRepository.findByName(ERole.MODERATOR).get());
         user.setCustomers(null);
         user.setEmail("danio@wp.pl");
         user.setPesel("92132456786");

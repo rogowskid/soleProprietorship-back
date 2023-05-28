@@ -1,4 +1,4 @@
-package com.example.soleproprietorship.config.authentication.response;
+package com.example.soleproprietorship.config;
 
 public class MessageResponse {
 

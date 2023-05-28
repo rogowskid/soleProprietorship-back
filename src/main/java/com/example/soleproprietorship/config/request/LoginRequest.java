@@ -1,4 +1,4 @@
-package com.example.soleproprietorship.config;
+package com.example.soleproprietorship.config.request;
 
 
 import lombok.Getter;
@@ -15,4 +15,6 @@ public class LoginRequest {
 
     @NotBlank
     private String password;
+
+    private String code;
 }
