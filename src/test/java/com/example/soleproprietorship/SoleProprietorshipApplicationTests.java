@@ -8,6 +8,7 @@ class SoleProprietorshipApplicationTests {
 
     @Test
     void contextLoads() {
+        SoleProprietorshipApplication.main(new String[]{});
     }
 
 }

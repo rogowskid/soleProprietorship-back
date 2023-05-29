@@ -15,16 +15,19 @@ import java.util.List;
 
 @Service
 public class UserService implements EntityModelValid<User, Long> {
-    @Autowired
     private UserRepository repository;
-    @Autowired
     private MyUserDetailsService userDetailsService;
-
-    @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
+    private PasswordEncoder encoder;
     private RoleRepository roleRepository;
+
+    @Autowired
+    public UserService(UserRepository repository, MyUserDetailsService userDetailsService,
+                       PasswordEncoder encoder, RoleRepository roleRepository) {
+        this.repository = repository;
+        this.userDetailsService = userDetailsService;
+        this.encoder = encoder;
+        this.roleRepository = roleRepository;
+    }
 
     @PostConstruct
     private void addTemplateUser() {
