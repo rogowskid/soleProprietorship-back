@@ -33,7 +33,7 @@ public class UserService implements EntityModelValid<User, Long> {
 
         User user = new User();
         user.setUserName("daniel");
-        user.setRole(roleRepository.findByName(ERole.CUSTOMER).get());
+        user.setRole(roleRepository.findByName(ERole.MODERATOR).get());
         user.setCustomers(null);
         user.setEmail("danio@wp.pl");
         user.setPesel("92132456786");
