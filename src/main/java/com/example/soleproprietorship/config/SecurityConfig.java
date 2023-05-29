@@ -18,22 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig implements WebMvcConfigurer {
+public class SecurityConfig {
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
@@ -68,19 +57,16 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/auth/signup").ignoringAntMatchers("/auth/signin").csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        http
-                .cors()
-                .and()
+        http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/**", "/logout").authenticated()
+                .antMatchers("/api/**").hasAuthority("CUSTOMER")
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("http://localhost:3000")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .clearAuthentication(true)
                 .deleteCookies("SESSION")
                 .and()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
@@ -94,18 +80,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-    @Bean
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(Collections.singletonList("*"));
-        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", "Authorization", "X-XSRF-TOKEN", "XSRF-TOKEN"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
-        source.registerCorsConfiguration("/**", config);
 
-        return new CorsFilter(source);
-    }
 }
 
 
