@@ -16,11 +16,14 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService extends EntityDTO<Product, ProductCreationDTO, ProductDTO>
         implements EntityModelValid<Product, Long> {
+    private ProductRepository repository;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private ProductRepository repository;
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+    public ProductService(ProductRepository repository, MyUserDetailsService userDetailsService) {
+        this.repository = repository;
+        this.userDetailsService = userDetailsService;
+    }
 
     public ProductDTO getProduct(Long idProduct) {
         User user = userDetailsService.getUserFromToken();
