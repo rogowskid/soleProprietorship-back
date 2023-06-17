@@ -118,27 +118,10 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(register.getUsername(),
-                encoder.encode(register.getPassword()),
-                register.getEmail(),
-                register.getPesel(),
-                register.getUserFirstName(), register.getUserSecondName());
+        Role role = roleRepository.findByName(ERole.CUSTOMER).orElseThrow(() -> new RuntimeException("Nie znaleziono roli"));
 
-        String strRoles = register.getRole();
-
-        if (strRoles == null) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Nie podałeś roli!"));
-        }
-
-        Role role;
-        if (strRoles.equals("MODERATOR")) {
-            role = roleRepository.findByName(ERole.MODERATOR).orElseThrow(() -> new RuntimeException("Nie znaleziono roli"));
-        } else {
-            role = roleRepository.findByName(ERole.CUSTOMER).orElseThrow(() -> new RuntimeException("Nie znaleziono roli"));
-        }
-        user.setRole(role);
+        User user = new User(register.getUsername(), encoder.encode(register.getPassword()), register.getEmail(), register.getPhoneNumber(),
+                register.getPesel(), register.getUserFirstName(), register.getUserSecondName(), register.getAddress(), role);
 
         if(register.isUse2FA()){
             String secret = totpService.generateSecret();
@@ -151,7 +134,6 @@ public class AuthController {
                     .body(new MessageResponse("Poprawnie dodano użytkownika \n Kod do 2etapowej autoryzacji: \n" +
                             qrUrl));
         }
-
         userRepository.save(user);
 
         return ResponseEntity
