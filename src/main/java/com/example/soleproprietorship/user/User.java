@@ -57,10 +57,10 @@ public class User implements HasModel {
     private String providerId;
 
     //2FA fields
-    @Column(name="isUsing2FA")
+    @Column(name = "isUsing2FA")
     private boolean isUsing2FA;
 
-    @Column(name="secret2FA")
+    @Column(name = "secret2FA")
     private String secret2FA;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
@@ -85,5 +85,18 @@ public class User implements HasModel {
         this.pesel = pesel;
         this.firstName = firstName;
         this.surName = surName;
+    }
+
+    public User(String userName, String password, String email, String phoneNumber, String pesel, String firstName,
+                String surName, String address, Role role) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.pesel = pesel;
+        this.firstName = firstName;
+        this.surName = surName;
+        this.address = address;
+        this.role = role;
     }
 }

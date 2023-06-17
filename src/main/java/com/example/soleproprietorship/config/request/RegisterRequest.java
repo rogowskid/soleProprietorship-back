@@ -14,9 +14,6 @@ public class RegisterRequest {
     @Size(max = 50)
     @Email
     private String email;
-
-    private String role;
-
     @NotBlank
     @Size(max = 30)
     private String userFirstName;
@@ -34,6 +31,13 @@ public class RegisterRequest {
 
     @NotBlank
     private boolean use2FA;
+
+    @NotBlank
+    @Size(max = 9)
+    private String phoneNumber;
+    @NotBlank
+    private String address;
+
 
     public boolean isUse2FA() {
         return use2FA;
@@ -73,15 +77,6 @@ public class RegisterRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getUserFirstName() {
         return userFirstName;
     }
@@ -98,4 +93,19 @@ public class RegisterRequest {
         this.userSecondName = userSecondName;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }
