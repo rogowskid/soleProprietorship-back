@@ -68,7 +68,7 @@ public class UserService implements EntityModelValid<User, Long> {
 
     private UserDTO mapEntityToDTO(User user) {
         return new UserDTO(user.getEmail(), user.getPhoneNumber(), user.getPesel(),
-                user.getFirstName(), user.getSurName(), user.getAddress());
+                user.getFirstName(), user.getSurName(), user.getAddress(), user.isUsing2FA());
     }
 
     @Override
@@ -88,6 +88,7 @@ public class UserService implements EntityModelValid<User, Long> {
         user.setPesel(model.getPesel());
         user.setUserName(model.getUserName());
         user.setTransactions(model.getTransactions());
+        user.setUsing2FA(model.isUsing2FA());
         return user;
     }
 
