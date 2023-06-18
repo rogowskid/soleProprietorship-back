@@ -14,6 +14,7 @@ import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -88,7 +89,7 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
 
     @Override
     protected Transaction mapCreationDTOToEntity(TransactionCreationDTO dto) {
-        return new Transaction(dto.getDate(), dto.getPrice(), dto.getDescription());
+        return new Transaction(LocalDateTime.now(), dto.getPrice(), dto.getDescription());
     }
 
     @Override

@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/api/transaction")
+@RequestMapping("/api/transaction")
 public class TransactionController {
     @Autowired
     private TransactionService transactionService;
