@@ -29,6 +29,9 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+/**
+ * Klasa służąca do konfiguracji bezpieczeństwa aplikacji
+ */
 public class SecurityConfig implements WebMvcConfigurer {
 
     @Autowired
@@ -63,9 +66,14 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    /**
+     * Metoda służy do konfiguracji mapowań użytkowników, dodatkowo wybierana jest tutaj pula mapowań, w których
+     * użytkownik nie potrzebuje autoryzacji, natomiast każde inne mapowanie wymaga autoryzacji
+     */
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/auth/signup")
                 .ignoringAntMatchers("/auth/signin")
+                .ignoringAntMatchers("/auth/signin/verify2FA")
                 .ignoringAntMatchers("/logout")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http

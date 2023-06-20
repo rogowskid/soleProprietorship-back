@@ -1,5 +1,8 @@
 package com.example.soleproprietorship.config;
 
+/**
+ * Klasa służy do generowania wiadomości, które są przesyłane w ResponseEntity, jako odpowiedź serwera.
+ */
 public class MessageResponse {
 
     private String message;

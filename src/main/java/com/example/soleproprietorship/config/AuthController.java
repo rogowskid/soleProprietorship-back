@@ -4,6 +4,7 @@ import com.example.soleproprietorship.config.jwt.JwtResponse;
 import com.example.soleproprietorship.config.jwt.JwtUtils;
 import com.example.soleproprietorship.config.request.LoginRequest;
 import com.example.soleproprietorship.config.request.RegisterRequest;
+import com.example.soleproprietorship.config.services.TotpDto;
 import com.example.soleproprietorship.config.services.UserDetailsImpl;
 import com.example.soleproprietorship.customer.role.ERole;
 import com.example.soleproprietorship.customer.role.Role;
@@ -46,6 +47,12 @@ public class AuthController {
     @Autowired
     private TotpService totpService;
 
+    /**
+     * Metoda służąca do logowania użytkownika, jako parametr przyjmuje obiekt LoginRequest
+     *
+     * @param loginRequest
+     * @return
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -62,7 +69,7 @@ public class AuthController {
             if (user.isUsing2FA()) {
                 try {
                     Integer.parseInt(loginRequest.getCode());
-                }catch (NumberFormatException ex){
+                } catch (NumberFormatException ex) {
                     return ResponseEntity
                             .badRequest()
                             .body(new MessageResponse("Wprowadzony kod nie jest poprawnie sformatowany"));
@@ -102,6 +109,12 @@ public class AuthController {
                 role));
     }
 
+    /**
+     * Metoda służy do rejestracji użytkownika w systemie, jako parametr przyjmuje obiekt RegisterRequest
+     *
+     * @param register
+     * @return
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest register) {
 
@@ -123,7 +136,7 @@ public class AuthController {
         User user = new User(register.getUsername(), encoder.encode(register.getPassword()), register.getEmail(), register.getPhoneNumber(),
                 register.getPesel(), register.getUserFirstName(), register.getUserSecondName(), register.getAddress(), role);
 
-        if(register.isUse2FA()){
+        if (register.isUse2FA()) {
             String secret = totpService.generateSecret();
             user.setSecret2FA(secret);
             user.setUsing2FA(true);
@@ -140,5 +153,34 @@ public class AuthController {
                 .ok()
                 .body(new MessageResponse("Poprawnie dodano użytkownika"));
     }
+
+    /**
+     * Metoda sprawdza czy logowaniu, czy dany użytkownik posiada 2-stopniową autoryzację
+     * @param loginRequest
+     * @return
+     */
+    @PostMapping("/signin/verify2FA")
+    public ResponseEntity<?> verify2FA(@RequestBody LoginRequest loginRequest) {
+
+        User user = userRepository.findByUserName(loginRequest.getUserName()).orElse(null);
+
+        if (user == null)
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Nie znaleziono takiego użytkownika"));
+
+
+        if (!user.isUsing2FA())
+            return ResponseEntity
+                    .ok()
+                    .body(new TotpDto(false));
+
+
+        return ResponseEntity
+                .ok()
+                .body(new TotpDto(true, totpService.generateQRUrl(user)));
+
+    }
+
 
 }
