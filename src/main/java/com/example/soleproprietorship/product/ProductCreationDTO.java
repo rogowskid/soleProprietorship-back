@@ -6,6 +6,9 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/*** DTO Tworzenia produktu.
+ *
+ */
 @Getter
 @Setter
 public class ProductCreationDTO {

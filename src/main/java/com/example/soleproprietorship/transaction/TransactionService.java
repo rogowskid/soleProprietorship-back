@@ -40,6 +40,11 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
         this.userDetailsService = userDetailsService;
     }
 
+    /***
+     * Metoda zwracajaca DTO Transakcji na podstawie ID Transakcji.
+     * @param idTransaction ID Transakcji.
+     * @return DTO Transakcji.
+     */
     public TransactionDTO getTransaction(Long idTransaction) {
         User user = userDetailsService.getUserFromToken();
         Transaction transaction = repository.findByIdTransactionAndUser(idTransaction, user);
@@ -49,6 +54,10 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
         return mapEntityToSingleDTO(transaction);
     }
 
+    /***
+     * Metoda zwracajaca liste DTO Transakcji uzytkownika.
+     * @return Lista DTO transakcji uzytkownika.
+     */
     public List<TransactionDTO> getUserTransactions() {
         User user = userDetailsService.getUserFromToken();
         List<Transaction> transactions = repository.findAllByUser(user);
@@ -60,6 +69,11 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
                 .collect(Collectors.toList());
     }
 
+    /***
+     * Metoda umozliwiajaca dodanie transakcji do systemu.
+     * @param dto DTO Transakcji
+     * @return
+     */
     public void addTransaction(TransactionCreationDTO dto) {
         User user = userDetailsService.getUserFromToken();
         Transaction transaction = mapCreationDTOToEntity(dto);
@@ -80,12 +94,22 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
         repository.save(transaction);
     }
 
+    /***
+     * Mapper encji do DTO zawierajacego listy produktow i uslug.
+     * @param transaction Encja transakcji
+     * @return DTO transakcji
+     */
     private TransactionDTO mapEntityToSingleDTO(Transaction transaction) {
         return new TransactionDTO(transaction.getIdTransaction(), transaction.getDate(), transaction.getPrice(),
                 transaction.getDescription(), transaction.getCustomer().getName() + transaction.getCustomer().getSurName(),
                 transaction.getProducts().size(), transaction.getJobs().size(), transaction.getProducts(), transaction.getJobs());
     }
 
+    /***
+     * Mapper encji do DTO.
+     * @param transaction Encja transakcji
+     * @return DTO transakcji
+     */
     @Override
     protected TransactionDTO mapEntityToDTO(Transaction transaction) {
         return new TransactionDTO(transaction.getIdTransaction(), transaction.getDate(), transaction.getPrice(),
@@ -93,6 +117,11 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
                 transaction.getProducts().size(), transaction.getJobs().size());
     }
 
+    /***
+     * Mapper DTO do encji.
+     * @param dto DTO Transakcji
+     * @return Encja transakcji
+     */
     @Override
     protected Transaction mapCreationDTOToEntity(TransactionCreationDTO dto) {
         return new Transaction(LocalDateTime.now(), dto.getPrice(), dto.getDescription());
