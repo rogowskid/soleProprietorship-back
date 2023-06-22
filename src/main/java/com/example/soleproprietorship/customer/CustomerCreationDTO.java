@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
+/***
+ * DTO tworzenia klienta.
+ */
 @Getter
 @Setter
 public class CustomerCreationDTO {

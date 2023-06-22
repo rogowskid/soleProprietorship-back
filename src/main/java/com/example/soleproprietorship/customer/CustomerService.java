@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/***
+ * Serwis dotyczacy klienta.
+ */
 @Service
 public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, CustomerDTO> implements EntityModelValid<Customer, Long> {
     private CustomerRepository repository;
@@ -24,6 +27,11 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         this.userDetailsService = userDetailsService;
     }
 
+    /***
+     * Metoda zwracajaca DTO klienta dla podanego ID Klienta.
+     * @param idCustomer ID Klienta
+     * @return DTO Klienta
+     */
     public CustomerDTO getCustomer(Long idCustomer) {
         User user = userDetailsService.getUserFromToken();
         Customer customer = repository.findByIdCustomerAndUser(idCustomer, user);
@@ -33,6 +41,10 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         return mapEntityToDTO(customer);
     }
 
+    /***
+     * Metoda zwracajaca liste DTO klientow posiadanych przez danego uzytkownika.
+     * @return Lista DTO klientow
+     */
     public List<CustomerDTO> getUserCustomers() {
         User user = userDetailsService.getUserFromToken();
         List<Customer> customers = repository.findAllByUser(user);
@@ -44,6 +56,11 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
                 .collect(Collectors.toList());
     }
 
+    /***
+     * Metoda sluzaca dodaniu klienta do systemu.
+     * @param dto DTO klienta
+     * @return
+     */
     public void addCustomer(CustomerCreationDTO dto) {
         User user = userDetailsService.getUserFromToken();
         Customer customer = mapCreationDTOToEntity(dto);
@@ -51,6 +68,11 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         repository.save(customer);
     }
 
+    /***
+     * Metoda sluzaca edycji klienta w systemie.
+     * @param dto DTO klienta
+     * @return
+     */
     public void editCustomer(CustomerDTO dto) {
         User user = userDetailsService.getUserFromToken();
         Customer customer = repository.findByIdCustomerAndUser(dto.getIdCustomer(), user);
@@ -65,6 +87,11 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         repository.save(customer);
     }
 
+    /***
+     * Metoda sluzaca usunieciu klienta z systemu.
+     * @param idCustomer ID klienta
+     * @return
+     */
     public void deleteCustomer(long idCustomer) {
         User user = userDetailsService.getUserFromToken();
         Customer customer = repository.findByIdCustomerAndUser(idCustomer, user);
@@ -112,12 +139,22 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         return repository.findAll();
     }
 
+    /***
+     * Mapper encji na DTO.
+     * @param customer Encja klienta
+     * @return DTO klienta
+     */
     @Override
     protected CustomerDTO mapEntityToDTO(Customer customer) {
         return new CustomerDTO(customer.getIdCustomer(), customer.getName(), customer.getSurName(),
                 customer.getAddress(), customer.getPhoneNumber(), customer.getEmail());
     }
 
+    /***
+     * Mapper DTO tworzenia klienta na encje.
+     * @param dto DTO tworzenia klienta.
+     * @return Encja klienta
+     */
     @Override
     protected Customer mapCreationDTOToEntity(CustomerCreationDTO dto) {
         return new Customer(dto.getName(), dto.getSurName(), dto.getAddress(), dto.getPhoneNumber(), dto.getEmail());

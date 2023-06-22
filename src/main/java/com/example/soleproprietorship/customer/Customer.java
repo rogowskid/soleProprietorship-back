@@ -10,6 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
+/*** Encja klienta
+ *
+ */
 @Entity
 @Table(name = "Customers")
 @Getter
