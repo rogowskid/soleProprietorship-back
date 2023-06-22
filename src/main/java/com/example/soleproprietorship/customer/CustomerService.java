@@ -96,6 +96,7 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
     public void deleteCustomer(long idCustomer, String verifyCode) {
         User user = userDetailsService.getUserFromToken();
         validate2FA(user, verifyCode);
+
         Customer customer = repository.findByIdCustomerAndUser(idCustomer, user);
         if (customer == null) {
             throw new NoSuchElementException("Klient nie istnieje!");
