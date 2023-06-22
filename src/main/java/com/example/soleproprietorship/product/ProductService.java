@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/***
+ * Serwis dotyczacy produktu.
+ */
 @Service
 public class ProductService extends EntityDTO<Product, ProductCreationDTO, ProductDTO>
         implements EntityModelValid<Product, Long> {
@@ -25,6 +28,11 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         this.userDetailsService = userDetailsService;
     }
 
+    /***
+     * Metoda zwracajaca DTO produktu na podstawie ID produktu.
+     * @param idProduct ID Produktu
+     * @return DTO Produktu
+     */
     public ProductDTO getProduct(Long idProduct) {
         User user = userDetailsService.getUserFromToken();
         Product product = repository.findByIdProductAndUser(idProduct, user);
@@ -34,6 +42,10 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         return mapEntityToDTO(product);
     }
 
+    /***
+     * Metoda zwracajaca liste DTO produktow uzytkownika.
+     * @return Lista DTO produktow uzytkownika
+     */
     public List<ProductDTO> getUserProducts() {
         User user = userDetailsService.getUserFromToken();
         List<Product> products = repository.findAllByUser(user);
@@ -45,6 +57,11 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
                 .collect(Collectors.toList());
     }
 
+    /***
+     * Metoda sluzaca dodawaniu nowych produktow do systemu.
+     * @param dto DTO Produktu
+     * @return
+     */
     public void addProduct(ProductCreationDTO dto) {
         User user = userDetailsService.getUserFromToken();
         Product product = mapCreationDTOToEntity(dto);
@@ -52,6 +69,11 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         repository.save(product);
     }
 
+    /***
+     * Metoda sluzaca edycji produktu.
+     * @param dto DTO Produktu
+     * @return
+     */
     public void editProduct(ProductDTO dto) {
         User user = userDetailsService.getUserFromToken();
         Product product = repository.findByIdProductAndUser(dto.getIdProduct(), user);
@@ -64,6 +86,11 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         repository.save(product);
     }
 
+    /***
+     * Metoda sluzaca usunieciu produktu.
+     * @param idProduct ID Produktu
+     * @return
+     */
     public void deleteProduct(long idProduct) {
         User user = userDetailsService.getUserFromToken();
         Product product = repository.findByIdProductAndUser(idProduct, user);
@@ -73,11 +100,21 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         repository.delete(product);
     }
 
+    /***
+     * Mapper encji na DTO.
+     * @param product Encja produktu
+     * @return DTO produktu
+     */
     @Override
     protected ProductDTO mapEntityToDTO(Product product) {
         return new ProductDTO(product.getIdProduct(), product.getName(), product.getPrice(), product.getWeight());
     }
 
+    /***
+     * Mapper DTO na encje.
+     * @param dto DTO produktu
+     * @return Encja produktu
+     */
     @Override
     protected Product mapCreationDTOToEntity(ProductCreationDTO dto) {
         return new Product(dto.getName(), dto.getPrice(), dto.getWeight());

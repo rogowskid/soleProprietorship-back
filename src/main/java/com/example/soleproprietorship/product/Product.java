@@ -9,6 +9,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+/***
+ * Encja produktu.
+ */
 @Entity
 @Table(name = "Products")
 @Getter
