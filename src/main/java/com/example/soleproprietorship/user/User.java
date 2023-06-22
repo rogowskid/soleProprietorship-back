@@ -13,6 +13,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
 
+/***
+ * Encja uzytkownika.
+ */
 @Entity
 @Table(name = "Users")
 @Getter

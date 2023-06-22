@@ -3,6 +3,9 @@ package com.example.soleproprietorship.user;
 import lombok.Getter;
 import lombok.Setter;
 
+/***
+ * DTO uzytkownika.
+ */
 @Getter
 @Setter
 public class UserDTO {
