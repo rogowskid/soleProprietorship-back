@@ -15,11 +15,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class JobService extends EntityDTO<Job, JobCreationDTO, JobDTO> implements EntityModelValid<Job, Long> {
+    private JobRepository repository;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private JobRepository repository;
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+    public JobService(JobRepository repository, MyUserDetailsService userDetailsService) {
+        this.repository = repository;
+        this.userDetailsService = userDetailsService;
+    }
 
     public JobDTO getJob(Long idJob) {
         User user = userDetailsService.getUserFromToken();

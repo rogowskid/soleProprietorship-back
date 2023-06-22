@@ -24,16 +24,21 @@ import java.util.stream.Collectors;
 public class TransactionService extends EntityDTO<Transaction, TransactionCreationDTO, TransactionDTO>
         implements EntityModelValid<Transaction, Long> {
 
-    @Autowired
     private TransactionRepository repository;
-    @Autowired
     private CustomerRepository customerRepository;
-    @Autowired
     private JobRepository jobRepository;
-    @Autowired
     private ProductRepository productRepository;
-    @Autowired
     private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    public TransactionService(TransactionRepository repository, CustomerRepository customerRepository, JobRepository jobRepository,
+                              ProductRepository productRepository, MyUserDetailsService userDetailsService) {
+        this.repository = repository;
+        this.customerRepository = customerRepository;
+        this.jobRepository = jobRepository;
+        this.productRepository = productRepository;
+        this.userDetailsService = userDetailsService;
+    }
 
     public TransactionDTO getTransaction(Long idTransaction) {
         User user = userDetailsService.getUserFromToken();

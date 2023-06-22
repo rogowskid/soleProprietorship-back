@@ -15,11 +15,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, CustomerDTO> implements EntityModelValid<Customer, Long> {
+    private CustomerRepository repository;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
-    private CustomerRepository repository;
-    @Autowired
-    private MyUserDetailsService userDetailsService;
+    public CustomerService(CustomerRepository repository, MyUserDetailsService userDetailsService) {
+        this.repository = repository;
+        this.userDetailsService = userDetailsService;
+    }
 
     public CustomerDTO getCustomer(Long idCustomer) {
         User user = userDetailsService.getUserFromToken();
