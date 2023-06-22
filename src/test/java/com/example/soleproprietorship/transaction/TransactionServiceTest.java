@@ -117,7 +117,6 @@ public class TransactionServiceTest {
         List<Long> id = new LinkedList<>();
         id.add(5L);
         TransactionCreationDTO transactionCreationDTOToTest = new TransactionCreationDTO();
-        transactionCreationDTOToTest.setDate(dateTime);
         transactionCreationDTOToTest.setPrice(45.50);
         transactionCreationDTOToTest.setDescription("description");
         transactionCreationDTOToTest.setIdCustomer(10L);
@@ -145,7 +144,6 @@ public class TransactionServiceTest {
         List<Long> id = new LinkedList<>();
         id.add(5L);
         TransactionCreationDTO transactionCreationDTOToTest = new TransactionCreationDTO();
-        transactionCreationDTOToTest.setDate(dateTime);
         transactionCreationDTOToTest.setPrice(45.50);
         transactionCreationDTOToTest.setDescription("description");
         transactionCreationDTOToTest.setIdCustomer(10L);
@@ -165,7 +163,6 @@ public class TransactionServiceTest {
         List<Long> id = new LinkedList<>();
         id.add(5L);
         TransactionCreationDTO transactionCreationDTOToTest = new TransactionCreationDTO();
-        transactionCreationDTOToTest.setDate(dateTime);
         transactionCreationDTOToTest.setPrice(45.50);
         transactionCreationDTOToTest.setDescription("description");
         transactionCreationDTOToTest.setIdCustomer(10L);
@@ -187,7 +184,6 @@ public class TransactionServiceTest {
         List<Long> id = new LinkedList<>();
         id.add(5L);
         TransactionCreationDTO transactionCreationDTOToTest = new TransactionCreationDTO();
-        transactionCreationDTOToTest.setDate(dateTime);
         transactionCreationDTOToTest.setPrice(45.50);
         transactionCreationDTOToTest.setDescription("description");
         transactionCreationDTOToTest.setIdCustomer(10L);

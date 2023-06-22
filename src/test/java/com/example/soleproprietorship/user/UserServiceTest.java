@@ -36,7 +36,7 @@ public class UserServiceTest {
                 "pesel", "firstName", "surName");
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
         UserDTO userDTOToTest = new UserDTO("email", "phoneNumber", "pesel",
-                "firstName2", "surName", "address");
+                "firstName2", "surName", "address", false);
         userService.editUser(userDTOToTest);
     }
 }

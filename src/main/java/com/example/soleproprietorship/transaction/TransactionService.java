@@ -74,6 +74,7 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
             throw new NoSuchElementException("Produkty o takich ID nie istnieją!");
         }
         transaction.setUser(user);
+        transaction.setCustomer(customer);
         transaction.setJobs(jobs);
         transaction.setProducts(products);
         repository.save(transaction);
