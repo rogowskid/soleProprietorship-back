@@ -12,6 +12,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/***
+ * Encja transakcji.
+ */
 @Entity
 @Table(name = "Transactions")
 @Getter
