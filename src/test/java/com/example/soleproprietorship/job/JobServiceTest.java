@@ -1,9 +1,6 @@
 package com.example.soleproprietorship.job;
 
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
-import com.example.soleproprietorship.product.Product;
-import com.example.soleproprietorship.product.ProductCreationDTO;
-import com.example.soleproprietorship.product.ProductDTO;
 import com.example.soleproprietorship.user.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -116,7 +113,7 @@ public class JobServiceTest {
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
         Job jobToTest = new Job("name", "10.0");
         when(repository.findByIdJobAndUser(10L, userToTest)).thenReturn(jobToTest);
-        jobService.deleteJob(10L);
+        jobService.deleteJob(10L, null);
     }
 
     @Test
@@ -124,7 +121,7 @@ public class JobServiceTest {
         User userToTest = new User("username", "password", "email",
                 "pesel", "firstName", "surName");
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
-        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jobService.deleteJob(10L));
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> jobService.deleteJob(10L, null));
         assertEquals(exception.getMessage(), "Usługa nie istnieje!");
     }
 }

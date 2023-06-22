@@ -114,7 +114,7 @@ public class ProductServiceTest {
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
         Product productToTest = new Product("name", 10.0, 15.0);
         when(repository.findByIdProductAndUser(10L, userToTest)).thenReturn(productToTest);
-        productService.deleteProduct(10L);
+        productService.deleteProduct(10L, null);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class ProductServiceTest {
         User userToTest = new User("username", "password", "email",
                 "pesel", "firstName", "surName");
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
-        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> productService.deleteProduct(10L));
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> productService.deleteProduct(10L, null));
         assertEquals(exception.getMessage(), "Produkt nie istnieje!");
     }
 }

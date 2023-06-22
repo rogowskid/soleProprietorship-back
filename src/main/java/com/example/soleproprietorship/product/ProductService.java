@@ -89,10 +89,14 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
     /***
      * Metoda sluzaca usunieciu produktu.
      * @param idProduct ID Produktu
+     * @param verifyCode
      * @return
      */
-    public void deleteProduct(long idProduct) {
+    public void deleteProduct(long idProduct, String verifyCode) {
         User user = userDetailsService.getUserFromToken();
+
+        validate2FA(user, verifyCode);
+
         Product product = repository.findByIdProductAndUser(idProduct, user);
         if (product == null) {
             throw new NoSuchElementException("Produkt nie istnieje!");

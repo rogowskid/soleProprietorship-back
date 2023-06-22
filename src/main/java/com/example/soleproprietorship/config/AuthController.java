@@ -30,19 +30,19 @@ import javax.validation.Valid;
 public class AuthController {
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private TotpService totpService;
@@ -50,8 +50,6 @@ public class AuthController {
     /**
      * Metoda służąca do logowania użytkownika, jako parametr przyjmuje obiekt LoginRequest
      *
-     * @param loginRequest
-     * @return
      */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -112,8 +110,6 @@ public class AuthController {
     /**
      * Metoda służy do rejestracji użytkownika w systemie, jako parametr przyjmuje obiekt RegisterRequest
      *
-     * @param register
-     * @return
      */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest register) {
@@ -156,8 +152,6 @@ public class AuthController {
 
     /**
      * Metoda sprawdza czy logowaniu, czy dany użytkownik posiada 2-stopniową autoryzację
-     * @param loginRequest
-     * @return
      */
     @PostMapping("/signin/verify2FA")
     public ResponseEntity<?> verify2FA(@RequestBody LoginRequest loginRequest) {

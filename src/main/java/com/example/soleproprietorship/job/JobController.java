@@ -65,8 +65,8 @@ public class JobController {
      * @return
      */
     @DeleteMapping
-    public ResponseEntity<Void> deleteJob(@RequestParam Long idJob) {
-        jobService.deleteJob(idJob);
+    public ResponseEntity<Void> deleteJob(@RequestParam Long idJob, @RequestParam String verifyCode) {
+        jobService.deleteJob(idJob, verifyCode);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

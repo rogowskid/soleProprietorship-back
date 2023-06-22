@@ -116,7 +116,7 @@ public class CustomerServiceTest {
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
         Customer customerToTest = new Customer("name", "surname", "address", "123456789", "jan.kowalski@email.pl");
         when(repository.findByIdCustomerAndUser(10L, userToTest)).thenReturn(customerToTest);
-        customerService.deleteCustomer(10L);
+        customerService.deleteCustomer(10L, null);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class CustomerServiceTest {
         User userToTest = new User("username", "password", "email",
                 "pesel", "firstName", "surName");
         when(userDetailsService.getUserFromToken()).thenReturn(userToTest);
-        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> customerService.deleteCustomer(10L));
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> customerService.deleteCustomer(10L, null));
         assertEquals(exception.getMessage(), "Klient nie istnieje!");
     }
 }

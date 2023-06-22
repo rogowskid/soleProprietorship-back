@@ -64,8 +64,8 @@ public class ProductController {
      * @return
      */
     @DeleteMapping
-    public ResponseEntity<Void> deleteProduct(@RequestParam Long idProduct) {
-        productService.deleteProduct(idProduct);
+    public ResponseEntity<Void> deleteProduct(@RequestParam Long idProduct, @RequestParam String verifyCode) {
+        productService.deleteProduct(idProduct, verifyCode);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

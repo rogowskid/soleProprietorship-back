@@ -90,10 +90,12 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
     /***
      * Metoda sluzaca usunieciu klienta z systemu.
      * @param idCustomer ID klienta
+     * @param verifyCode
      * @return
      */
-    public void deleteCustomer(long idCustomer) {
+    public void deleteCustomer(long idCustomer, String verifyCode) {
         User user = userDetailsService.getUserFromToken();
+        validate2FA(user, verifyCode);
         Customer customer = repository.findByIdCustomerAndUser(idCustomer, user);
         if (customer == null) {
             throw new NoSuchElementException("Klient nie istnieje!");

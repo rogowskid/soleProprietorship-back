@@ -86,8 +86,9 @@ public class JobService extends EntityDTO<Job, JobCreationDTO, JobDTO> implement
      * @param idJob ID Uslugi
      * @return
      */
-    public void deleteJob(long idJob) {
+    public void deleteJob(long idJob, String verifyCode) {
         User user = userDetailsService.getUserFromToken();
+        validate2FA(user, verifyCode);
         Job job = repository.findByIdJobAndUser(idJob, user);
         if (job == null) {
             throw new NoSuchElementException("Usługa nie istnieje!");

@@ -64,8 +64,8 @@ public class CustomerController {
      * @return
      */
     @DeleteMapping
-    public ResponseEntity<Void> deleteCustomer(@RequestParam Long idCustomer) {
-        customerService.deleteCustomer(idCustomer);
+    public ResponseEntity<Void> deleteCustomer(@RequestParam Long idCustomer, @RequestParam String verifyCode) {
+        customerService.deleteCustomer(idCustomer, verifyCode);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
