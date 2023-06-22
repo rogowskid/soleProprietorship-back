@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
+/***
+ * DTO uslugi.
+ */
 @Getter
 @Setter
 public class JobDTO {
