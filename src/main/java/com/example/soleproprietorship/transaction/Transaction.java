@@ -3,7 +3,9 @@ package com.example.soleproprietorship.transaction;
 import com.example.soleproprietorship.common.HasModel;
 import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.job.Job;
+import com.example.soleproprietorship.job.JobDTO;
 import com.example.soleproprietorship.product.Product;
+import com.example.soleproprietorship.product.ProductDTO;
 import com.example.soleproprietorship.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,6 +57,7 @@ public class Transaction implements HasModel {
             }
     )
     private List<Product> products;
+
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,

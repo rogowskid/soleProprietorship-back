@@ -116,6 +116,10 @@ public class JobService extends EntityDTO<Job, JobCreationDTO, JobDTO> implement
         return new Job(jobCreationDTO.getName(), jobCreationDTO.getPrice());
     }
 
+    public List<JobDTO> mapEntitiesToDTO(List<Job> jobs) {
+        return jobs.stream().map(this::mapEntityToDTO).collect(Collectors.toList());
+    }
+
     @Override
     public Job executeEncode(Job entity) {
 

@@ -7,8 +7,10 @@ import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.CustomerRepository;
 import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.job.JobRepository;
+import com.example.soleproprietorship.job.JobService;
 import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.product.ProductRepository;
+import com.example.soleproprietorship.product.ProductService;
 import com.example.soleproprietorship.user.User;
 import org.owasp.encoder.Encode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,21 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
     private ProductRepository productRepository;
     private MyUserDetailsService userDetailsService;
 
+    private ProductService productService;
+
+    private JobService jobService;
+
     @Autowired
     public TransactionService(TransactionRepository repository, CustomerRepository customerRepository, JobRepository jobRepository,
-                              ProductRepository productRepository, MyUserDetailsService userDetailsService) {
+                              ProductRepository productRepository, MyUserDetailsService userDetailsService,
+                              ProductService productService, JobService jobService) {
         this.repository = repository;
         this.customerRepository = customerRepository;
         this.jobRepository = jobRepository;
         this.productRepository = productRepository;
         this.userDetailsService = userDetailsService;
+        this.productService = productService;
+        this.jobService = jobService;
     }
 
     /***
@@ -102,7 +111,7 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
     private TransactionDTO mapEntityToSingleDTO(Transaction transaction) {
         return new TransactionDTO(transaction.getIdTransaction(), transaction.getDate(), transaction.getPrice(),
                 transaction.getDescription(), transaction.getCustomer().getName() + transaction.getCustomer().getSurName(),
-                transaction.getProducts().size(), transaction.getJobs().size(), transaction.getProducts(), transaction.getJobs());
+                transaction.getProducts().size(), transaction.getJobs().size(), productService.mapEntitiesToDTO(transaction.getProducts()) , jobService.mapEntitiesToDTO(transaction.getJobs()));
     }
 
     /***
@@ -111,10 +120,10 @@ public class TransactionService extends EntityDTO<Transaction, TransactionCreati
      * @return DTO transakcji
      */
     @Override
-    protected TransactionDTO mapEntityToDTO(Transaction transaction) {
+    public TransactionDTO mapEntityToDTO(Transaction transaction) {
         return new TransactionDTO(transaction.getIdTransaction(), transaction.getDate(), transaction.getPrice(),
                 transaction.getDescription(), transaction.getCustomer().getName() + " " + transaction.getCustomer().getSurName(),
-                transaction.getProducts().size(), transaction.getJobs().size());
+                transaction.getProducts().size(), transaction.getJobs().size(), productService.mapEntitiesToDTO(transaction.getProducts()) , jobService.mapEntitiesToDTO(transaction.getJobs()));
     }
 
     /***

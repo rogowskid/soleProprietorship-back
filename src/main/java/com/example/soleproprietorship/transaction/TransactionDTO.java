@@ -1,7 +1,9 @@
 package com.example.soleproprietorship.transaction;
 
 import com.example.soleproprietorship.job.Job;
+import com.example.soleproprietorship.job.JobDTO;
 import com.example.soleproprietorship.product.Product;
+import com.example.soleproprietorship.product.ProductDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,8 +25,8 @@ public class TransactionDTO {
     private String customerName;
     private Integer numberOfProducts;
     private Integer numberOfJobs;
-    private List<Product> products;
-    private List<Job> jobs;
+    private List<ProductDTO> products;
+    private List<JobDTO> jobs;
 
     public TransactionDTO(Long idTransaction, LocalDateTime date, Double price, String description,
                           String customerName, Integer numberOfProducts, Integer numberOfJobs) {
@@ -39,7 +41,7 @@ public class TransactionDTO {
 
     public TransactionDTO(Long idTransaction, LocalDateTime date, Double price, String description,
                           String customerName, Integer numberOfProducts, Integer numberOfJobs,
-                          List<Product> products, List<Job> jobs) {
+                          List<ProductDTO> products, List<JobDTO> jobs) {
         this.idTransaction = idTransaction;
         this.date = date;
         this.price = price;

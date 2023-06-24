@@ -114,6 +114,10 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         return new ProductDTO(product.getIdProduct(), product.getName(), product.getPrice(), product.getWeight());
     }
 
+    public List<ProductDTO> mapEntitiesToDTO(List<Product> products) {
+        return products.stream().map(this::mapEntityToDTO).collect(Collectors.toList());
+    }
+
     /***
      * Mapper DTO na encje.
      * @param dto DTO produktu
