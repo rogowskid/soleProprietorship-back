@@ -5,8 +5,10 @@ import com.example.soleproprietorship.customer.Customer;
 import com.example.soleproprietorship.customer.CustomerRepository;
 import com.example.soleproprietorship.job.Job;
 import com.example.soleproprietorship.job.JobRepository;
+import com.example.soleproprietorship.job.JobService;
 import com.example.soleproprietorship.product.Product;
 import com.example.soleproprietorship.product.ProductRepository;
+import com.example.soleproprietorship.product.ProductService;
 import com.example.soleproprietorship.user.User;
 import com.example.soleproprietorship.user.UserDTO;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,12 @@ public class TransactionServiceTest {
     private ProductRepository productRepository;
     @Mock
     private MyUserDetailsService userDetailsService;
+
+    @Mock
+    private ProductService productService;
+
+    @Mock
+    private JobService jobService;
     @InjectMocks
     private TransactionService transactionService;
 
