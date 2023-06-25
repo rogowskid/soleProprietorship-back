@@ -53,11 +53,20 @@ public class UserService implements EntityModelValid<User, Long> {
 
     }
 
+    /***
+     * Metoda zwracajaca DTO uzytkownika na bazie tokenu.
+     * @return DTO uzytkownika.
+     */
     public UserDTO getUser() {
         User user = userDetailsService.getUserFromToken();
         return mapEntityToDTO(user);
     }
 
+    /***
+     * Metoda umozliwiajaca na edycje uzytkownika.
+     * @param dto DTO uzytkownika
+     * @return
+     */
     public void editUser(UserDTO dto) {
         User user = userDetailsService.getUserFromToken();
         user.setEmail(dto.getEmail() != null ? dto.getEmail() : user.getEmail());
@@ -69,6 +78,11 @@ public class UserService implements EntityModelValid<User, Long> {
         repository.save(user);
     }
 
+    /***
+     * Mapper encji do DTO.
+     * @param user Encja uzytkownika.
+     * @return DTO uzytkownika.
+     */
     private UserDTO mapEntityToDTO(User user) {
         return new UserDTO(user.getEmail(), user.getPhoneNumber(), user.getPesel(),
                 user.getFirstName(), user.getSurName(), user.getAddress(), user.isUsing2FA());
