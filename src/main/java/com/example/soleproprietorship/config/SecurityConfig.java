@@ -71,9 +71,7 @@ public class SecurityConfig implements WebMvcConfigurer {
      * użytkownik nie potrzebuje autoryzacji, natomiast każde inne mapowanie wymaga autoryzacji
      */
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/auth/signup")
-                .ignoringAntMatchers("/auth/signin")
-                .ignoringAntMatchers("/auth/signin/verify2FA")
+        http.csrf()
                 .ignoringAntMatchers("/logout")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http

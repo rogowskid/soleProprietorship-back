@@ -115,6 +115,9 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
     }
 
     public List<ProductDTO> mapEntitiesToDTO(List<Product> products) {
+        if(products == null || products.isEmpty()) {
+            return null;
+        }
         return products.stream().map(this::mapEntityToDTO).collect(Collectors.toList());
     }
 
