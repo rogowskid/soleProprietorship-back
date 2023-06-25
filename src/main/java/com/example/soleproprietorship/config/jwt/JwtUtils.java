@@ -21,6 +21,11 @@ public class JwtUtils {
     @Value("${bezkoder.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
+    /**
+     * Generowanie tokenu JWT
+     * @param authentication
+     * @return
+     */
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -33,10 +38,20 @@ public class JwtUtils {
                 .compact();
     }
 
+    /**
+     * Pobranie loginu użytkownika z tokenu JWT
+     * @param token
+     * @return
+     */
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    /**
+     * Walidacja tokenu
+     * @param authToken
+     * @return
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

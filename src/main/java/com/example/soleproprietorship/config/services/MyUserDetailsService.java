@@ -30,6 +30,10 @@ public class MyUserDetailsService implements UserDetailsService {
         return UserDetailsImpl.build(user);
     }
 
+    /**
+     * Pobranie użytkownika z sesji
+     * @return
+     */
     public User getUserFromToken() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return repository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono takiego użytkownika!"));

@@ -49,7 +49,6 @@ public class AuthController {
 
     /**
      * Metoda służąca do logowania użytkownika, jako parametr przyjmuje obiekt LoginRequest
-     *
      */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -109,7 +108,6 @@ public class AuthController {
 
     /**
      * Metoda służy do rejestracji użytkownika w systemie, jako parametr przyjmuje obiekt RegisterRequest
-     *
      */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest register) {

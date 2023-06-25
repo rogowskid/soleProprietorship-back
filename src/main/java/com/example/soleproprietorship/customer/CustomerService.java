@@ -104,6 +104,11 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         repository.delete(customer);
     }
 
+    /**
+     * Metoda służąca do "Escapowania" nielegalnych znaków
+     * @param model
+     * @return
+     */
     @Override
     public Customer executeEncode(Customer model) {
         Customer customer = new Customer();
@@ -127,6 +132,11 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
 
     }
 
+    /**
+     * Za pomocą wybranego id zwraca wybranego Customera
+     * @param id
+     * @return
+     */
     @Override
     public Customer getEntity(Long id) {
         User user = userDetailsService.getUserFromToken();
@@ -137,6 +147,10 @@ public class CustomerService extends EntityDTO<Customer, CustomerCreationDTO, Cu
         return customer;
     }
 
+    /**
+     * Zwraca wszystkie obiekty customera
+     * @return
+     */
     @Override
     public List<Customer> getEntities() {
         return repository.findAll();

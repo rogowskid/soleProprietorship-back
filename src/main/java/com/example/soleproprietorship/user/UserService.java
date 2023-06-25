@@ -29,6 +29,9 @@ public class UserService implements EntityModelValid<User, Long> {
         this.roleRepository = roleRepository;
     }
 
+    /**
+     * Dodanie przykładowego użytkownika
+     */
     @PostConstruct
     private void addTemplateUser() {
         if (!repository.findAll().isEmpty())
@@ -53,11 +56,19 @@ public class UserService implements EntityModelValid<User, Long> {
 
     }
 
+    /**
+     * Pobranie użytkownika z sesji
+     * @return
+     */
     public UserDTO getUser() {
         User user = userDetailsService.getUserFromToken();
         return mapEntityToDTO(user);
     }
 
+    /**
+     * Modyfikacja użytkownika
+     * @param dto
+     */
     public void editUser(UserDTO dto) {
         User user = userDetailsService.getUserFromToken();
         user.setEmail(dto.getEmail() != null ? dto.getEmail() : user.getEmail());
