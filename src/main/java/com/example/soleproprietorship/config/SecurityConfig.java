@@ -44,6 +44,11 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
+
+    private final String LOGOUT_URL = "/logout";
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -80,15 +85,15 @@ public class SecurityConfig implements WebMvcConfigurer {
      */
     public SecurityFilterChain filterChain(HttpSecurity http, AuthEntryPointJwt unauthorizedHandler, CorsConfigurationSource corsConfigurationSource) throws Exception {
         http.csrf()
-                .ignoringAntMatchers("/logout")
+                .ignoringAntMatchers(LOGOUT_URL)
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http
                 .cors().configurationSource(corsConfigurationSource)
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/auth/**", "/logout").permitAll()
-                .antMatchers("/api/**", "/logout").authenticated()
+                .authorizeRequests().antMatchers("/auth/**", LOGOUT_URL).permitAll()
+                .antMatchers("/api/**", LOGOUT_URL).authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
@@ -96,6 +101,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .logout()
+                .logoutUrl(LOGOUT_URL)
                 .addLogoutHandler(customLogoutHandler())
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("http://localhost:3000")

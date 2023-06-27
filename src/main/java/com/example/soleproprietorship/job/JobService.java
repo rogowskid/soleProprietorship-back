@@ -116,7 +116,16 @@ public class JobService extends EntityDTO<Job, JobCreationDTO, JobDTO> implement
         return new Job(jobCreationDTO.getName(), jobCreationDTO.getPrice());
     }
 
+    /**
+     * Metoda zamienia liste obiektów Job na JobDto
+     * @param jobs
+     * @return
+     */
     public List<JobDTO> mapEntitiesToDTO(List<Job> jobs) {
+
+        if(jobs == null)
+            return null;
+
         return jobs.stream().map(this::mapEntityToDTO).collect(Collectors.toList());
     }
 
@@ -142,6 +151,7 @@ public class JobService extends EntityDTO<Job, JobCreationDTO, JobDTO> implement
 
         return jobs;
     }
+
 
     @Override
     public Job getEntity(Long idJob) {

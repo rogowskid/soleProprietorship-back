@@ -114,8 +114,13 @@ public class ProductService extends EntityDTO<Product, ProductCreationDTO, Produ
         return new ProductDTO(product.getIdProduct(), product.getName(), product.getPrice(), product.getWeight());
     }
 
+    /**
+     * Metoda zamienia liste obiektów Product na ProductDto
+     * @param products
+     * @return
+     */
     public List<ProductDTO> mapEntitiesToDTO(List<Product> products) {
-        if(products == null || products.isEmpty()) {
+        if(products == null) {
             return null;
         }
         return products.stream().map(this::mapEntityToDTO).collect(Collectors.toList());
