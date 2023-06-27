@@ -13,24 +13,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -43,11 +36,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
-
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
-
-    private final String LOGOUT_URL = "/logout";
+    private static final String LOGOUT_URL = "/logout";
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -72,10 +61,6 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
-    }
-    @Bean
-    public CustomLogoutHandler customLogoutHandler(){
-        return new CustomLogoutHandler();
     }
 
     @Bean
@@ -102,7 +87,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
                 .logout()
                 .logoutUrl(LOGOUT_URL)
-                .addLogoutHandler(customLogoutHandler())
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("http://localhost:3000")
                 .permitAll()
@@ -118,14 +102,6 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.build();
     }
 
-    public class CustomLogoutHandler implements LogoutHandler {
-
-        @Override
-        public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-            response.setHeader("Access-Control-Allow-Origin", "*");
-        }
-    }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -133,7 +109,6 @@ public class SecurityConfig implements WebMvcConfigurer {
         config.setAllowCredentials(true);
         config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-//        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", "Authorization", "X-XSRF-TOKEN", "XSRF-TOKEN", "Access-Control-Allow-Origin"));
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
