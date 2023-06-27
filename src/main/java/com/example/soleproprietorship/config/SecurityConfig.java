@@ -3,7 +3,6 @@ package com.example.soleproprietorship.config;
 import com.example.soleproprietorship.config.jwt.AuthEntryPointJwt;
 import com.example.soleproprietorship.config.jwt.AuthTokenFilter;
 import com.example.soleproprietorship.config.services.MyUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -34,9 +33,12 @@ import java.util.Collections;
  */
 public class SecurityConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    private final MyUserDetailsService myUserDetailsService;
     private static final String LOGOUT_URL = "/logout";
+
+    public SecurityConfig(MyUserDetailsService myUserDetailsService) {
+        this.myUserDetailsService = myUserDetailsService;
+    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -87,7 +89,6 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
                 .logout()
                 .logoutUrl(LOGOUT_URL)
-                .logoutUrl("/logout")
                 .logoutSuccessUrl("http://localhost:3000")
                 .permitAll()
                 .deleteCookies("SESSION")
