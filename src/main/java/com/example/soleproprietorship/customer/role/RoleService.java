@@ -17,7 +17,6 @@ public class RoleService {
             return;
 
         repository.save(new Role(ERole.CUSTOMER));
-        repository.save(new Role(ERole.MODERATOR));
     }
 
 }
