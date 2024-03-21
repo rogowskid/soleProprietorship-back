@@ -81,8 +81,13 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/auth/**", LOGOUT_URL).permitAll()
                 .antMatchers("/api/**", LOGOUT_URL).authenticated()
+                .antMatchers("/v2/api-docs/**").permitAll()
+                .antMatchers("/swagger**").permitAll()
+                .antMatchers("/test/**").permitAll()
+                .antMatchers("/swagger**/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
